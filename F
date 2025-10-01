@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bot | تحليل الأسواق الآلي</title>
+    
+    <link rel="icon" href="https://img.coinstats.app/assets/images/6a039d91f8605481d603e61a6c42a20b.png" type="image/png">
+    
+    <style>
+        /* التنسيقات الأساسية */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0d1a26; /* خلفية زرقاء داكنة جداً */
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #1a2c3e; /* لون أغمق قليلاً للخلفية الداخلية */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max_width: 480px;
+        }
+        h1 {
+            color: #4dd0e1; /* لون أزرق سماوي للعناوين */
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 2px solid #4dd0e1;
+            padding-bottom: 10px;
+        }
+
+        /* تنسيقات الإعدادات والقوائم */
+        .settings-section {
+            background-color: #26384a; /* خلفية الإعدادات */
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .setting-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #b3e5fc; /* لون فاتح لتسمية الحقل */
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #37474f;
+            background-color: #37474f;
+            color: #ffffff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        
+        /* تنسيقات الأزرار */
+        .signal-button {
+            width: 100%;
+            padding: 18px;
+            background-color: #00bcd4; /* أزرق سيان جذاب */
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .signal-button:hover {
+            background-color: #00acc1; 
+        }
+        .signal-button:active {
+            transform: scale(0.98);
+        }
+
+        /* تنسيقات قسم الإشارة */
+        .signal-output {
+            text-align: center;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #37474f;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .signal-output h3 {
+             color: #b3e5fc;
+        }
+        .signal-output p {
+            font-size: 1.1em;
+            color: #eeeeee;
+            margin-bottom: 10px;
+        }
+        .signal-output .result {
+            font-size: 3em;
+            font-weight: 900; /* خط سميك جداً */
+            color: #FF9800; /* برتقالي للانتظار */
+            transition: color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Bot | تحليل فوري</h1>
+
+        <div class="settings-section">
+            <h3>⚙️ إعدادات الإشارة</h3>
+            
+            <div class="setting-group">
+                <label for="instrument">السوق/المؤشر:</label>
+                <select id="instrument">
+                    <option value="Smarty">Smarty</option>
+                    <option value="CamelRaceIndex">Camel Race Index</option>
+                    <option value="CricketIndex">Cricket Index</option>
+                    <option value="LuxuryIndex">Luxury Index</option>
+                    <option value="FootballIndex">Football Index</option>
+                    <option value="AlIndex">Al Index</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="timeframe">الإطار الزمني:</label>
+                <select id="timeframe">
+                    <option value="5s">5 ثواني</option>
+                    <option value="30s">30 ثانية</option>
+                    <option value="1m">1 دقيقة</option>
+                </select>
+            </div>
+
+            <button class="signal-button" onclick="getSignal()">
+                الحصول على الإشارة الآن
+            </button>
+        </div>
+        
+        <div class="signal-output">
+            <h3>📈 نتيجة التحليل</h3>
+            <p id="signalMessage">اضغط "الحصول على الإشارة" لتشغيل البوت.</p>
+            <div id="signalResult" class="result">...</div>
+        </div>
+    </div>
+
+    <script>
+        function getSignal() {
+            const instrument = document.getElementById('instrument').value;
+            const timeframe = document.getElementById('timeframe').value;
+            const signalMessage = document.getElementById('signalMessage');
+            const signalResult = document.getElementById('signalResult');
+
+            // 1. عرض حالة "جاري التحليل"
+            signalMessage.textContent = `يتم تحليل سوق ${instrument} على إطار ${timeframe}...`;
+            signalResult.textContent = '⏳';
+            signalResult.style.color = '#FF9800'; // برتقالي
+
+            // 2. محاكاة عملية التحليل (انتظار 3 ثوانٍ)
+            setTimeout(() => {
+                const isBuy = Math.random() > 0.5; 
+                
+                if (isBuy) {
+                    signalResult.textContent = 'شراء ⬆️';
+                    signalMessage.textContent = '✅ **توصية قوية بالشراء!**';
+                    signalResult.style.color = '#4CAF50'; // أخضر
+                } else {
+                    signalResult.textContent = 'بيع ⬇️';
+                    signalMessage.textContent = '❌ **توصية قوية بالبيع!**';
+                    signalResult.style.color = '#F44336'; // أحمر
+                }
+            }, 3000); 
+        }
+    </script>
+</body>
+</html>
